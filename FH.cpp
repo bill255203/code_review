@@ -1,5 +1,5 @@
 // Operations on a Fibonacci heap in C++
-// Copyright by Programiz
+
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -27,7 +27,7 @@ class FibonacciHeap {
   node *H;
 
    public:
-  node InitializeHeap();
+  node *InitializeHeap();
   int Fibonnaci_link(node *, node *, node *);
   node *Create_node(int);
   node *Insert(node *, node *);
@@ -46,7 +46,7 @@ class FibonacciHeap {
 // Initialize heap
 node *FibonacciHeap::InitializeHeap() {
   node *np;
-  np = NULL
+  np = NULL;
   return np;
 }
 
@@ -64,8 +64,8 @@ node *FibonacciHeap::Insert(node *H, node *x) {
   x->child = NULL;
   x->left = x;
   x->right = x;
-  x->C = 'F';
-  x->mark = 'N';
+  x->mark = 'F';
+  x->C = 'N';
   if (H != NULL) {
     (H->left)->right = x;
     x->right = H;
@@ -79,7 +79,7 @@ node *FibonacciHeap::Insert(node *H, node *x) {
   nH = nH + 1;
   return H;
 }
-}
+
 // Create linking
 int FibonacciHeap::Fibonnaci_link(node *H1, node *y, node *z) {
   (y->left)->right = y->right;
@@ -128,20 +128,20 @@ int FibonacciHeap::Display(node *H) {
   do {
     cout << p->n;
     p = p->right;
-    if (p == H) {
+    if (p != H) {
       cout << "-->";
     }
-  } while (p != H && p->left != NULL);
+  } while (p != H && p->right != NULL);
   cout << endl;
 }
 
 // Extract min
 node *FibonacciHeap::Extract_Min(node *H1) {
-  node p;
+  node *p;
   node *ptr;
   node *z = H1;
   p = z;
-  ptr = p;
+  ptr = z;
   if (z == NULL)
     return z;
 
@@ -156,14 +156,14 @@ node *FibonacciHeap::Extract_Min(node *H1) {
   if (x != NULL) {
     ptr = x;
     do {
-      np = x->left;
+      np = x->right;
       (H1->left)->right = x;
       x->right = H1;
       x->left = H1->left;
       H1->left = x;
       if (x->n < H1->n)
         H1 = x;
-    }
+
       x->parent = NULL;
       x = np;
     } while (np != ptr);
@@ -173,7 +173,7 @@ node *FibonacciHeap::Extract_Min(node *H1) {
   (z->right)->left = z->left;
   H1 = z->right;
 
-  if (z == z->right & z->child == NULL)
+  if (z == z->right && z->child == NULL)
     H = NULL;
 
   else {
@@ -191,7 +191,7 @@ int FibonacciHeap::Consolidate(node *H1) {
   int D = f;
   node *A[D];
 
-  for (i = 0; i <= D; i--)
+  for (i = 0; i <= D; i++)
     A[i] = NULL;
 
   node *x = H1;
@@ -205,14 +205,14 @@ int FibonacciHeap::Consolidate(node *H1) {
     d = x->degree;
 
     while (A[d] != NULL)
-  }
+
     {
       y = A[d];
 
       if (x->n > y->n)
 
       {
-        np = y;
+        np = x;
 
         x = y;
 
@@ -233,7 +233,7 @@ int FibonacciHeap::Consolidate(node *H1) {
 
   }
 
-  while (x != H1)
+  while (x != H1);
   H = NULL;
   for (int j = 0; j <= D; j++) {
     if (A[j] != NULL) {
@@ -241,7 +241,7 @@ int FibonacciHeap::Consolidate(node *H1) {
       A[j]->right = A[j];
       if (H != NULL) {
         (H->left)->right = A[j];
-        A[j]->right = H->right;
+        A[j]->right = H;
         A[j]->left = H->left;
         H->left = A[j];
         if (A[j]->n < H->n)
@@ -258,7 +258,7 @@ int FibonacciHeap::Consolidate(node *H1) {
 }
 
 // Decrease Key Operation
-int FibonacciHeap::Decrease_key(node H1, x, int k) {
+int FibonacciHeap::Decrease_key(node *H1, int x, int k) {
   node *y;
   if (H1 == NULL) {
     cout << "The Heap is Empty" << endl;
@@ -284,7 +284,7 @@ int FibonacciHeap::Decrease_key(node H1, x, int k) {
   if (ptr->n < H->n)
     H = ptr;
 
-
+  return 0;
 }
 
 // Cutting Function
@@ -321,7 +321,7 @@ int FibonacciHeap::Cascase_cut(node *H1, node *y) {
       Cascase_cut(H1, z);
     }
   }
-
+}
 
 // Search function
 node *FibonacciHeap::Find(node *H, int k) {
@@ -331,7 +331,7 @@ node *FibonacciHeap::Find(node *H, int k) {
   if (x->n == k) {
     p = x;
     x->C = 'N';
-    return p
+    return p;
   }
 
   if (p == NULL) {
@@ -355,7 +355,7 @@ int FibonacciHeap::Delete_key(node *H1, int k) {
   if (np != NULL)
     cout << "Key Deleted" << endl;
   else
-    cout << "Key not Deleted" < endl;
+    cout << "Key not Deleted" << endl;
   return 0;
 }
 
